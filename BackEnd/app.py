@@ -48,6 +48,16 @@ class CustomJSONProvider(DefaultJSONProvider):
         if isinstance(obj, (np.float32, np.float64)):
             return float(obj)
         return super().default(obj)
+class CustomPDF(FPDF):
+    def __init__(self, model_used=None):
+        super().__init__()
+        self.model_used = model_used
+
+    def footer(self):
+        self.set_y(-15)  # Position 15mm from bottom
+        self.set_font("Arial", "I", 8)
+        timestamp = datetime.now().strftime("Generated on: %d %B %Y %I:%M %p")
+        self.cell(0, 10, timestamp, 0, 0, 'C')
 app = Flask(__name__, 
            static_folder=os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'FrontEnd'),
            static_url_path='',
@@ -63,13 +73,6 @@ app.config['SESSION_TYPE'] = 'filesystem'
 app.json = CustomJSONProvider(app)
 Session(app)
 logo_path = os.path.join(app.static_folder, 'asserts', 'vector', 'appIcon.png')
-class CustomPDF(FPDF):
-    def footer(self):
-        self.set_y(-15)  # Position 15mm from bottom
-        self.set_font('Arial', 'I', 8)  # Italic font, size 8
-        self.set_text_color(128)  # Gray color
-        timestamp = datetime.now().strftime('Generated on: %d %B %Y')
-        self.cell(0, 10, timestamp, 0, 0, 'C')  # Center aligned
 # Ensure upload directory exists
 Path(app.config['UPLOAD_FOLDER']).mkdir(parents=True, exist_ok=True)
 #function to convert NumPy types to native Python types
@@ -338,6 +341,7 @@ def process_resumes():
         # Get data from request
         data = request.json
         modelType=f"{data.get('model','skills')}+{data.get('intensity', 'casual')}"
+        session['model_used'] = modelType 
         logger.info(f"\nProcessing resumes with model: {modelType}")
         # Get parsed results from session``
         parsed_results = session.get('parsed_results', [])
@@ -385,21 +389,37 @@ def process_resumes():
 def export_excel():
     try:
         data = request.get_json()
-        df = pd.DataFrame(data)
+        logger.info(f"Received data for Excel export: {len(data)} records")
+        
+        # Clean and normalize the data for Excel
+        clean_data = []
+        for item in data:
+            clean_record = {
+                'file_name': item.get('file_name', 'N/A'),
+                'email': item.get('email', 'N/A'),
+                'phone': item.get('phone', 'N/A'),
+                'score': item.get('score', 0),
+                'prediction': 'Match' if item.get('prediction', False) else 'No Match'
+            }
+            if 'matched_skills' in item and isinstance(item['matched_skills'], list):
+                clean_record['matched_skills'] = ', '.join(item['matched_skills'])
+            clean_data.append(clean_record)
+        
+        df = pd.DataFrame(clean_data)
+        
+        # Format score as percentage
+        if 'score' in df.columns:
+            df['score'] = df['score'].apply(lambda x: f"{x*100:.1f}%" if isinstance(x, (int, float)) else x)
+            
         output = io.BytesIO()
         with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-            df.to_excel(writer, index=False, sheet_name='Results', startrow=5)  # Start after 5 rows (to make space for logo)
+            # Write DataFrame starting at row 3 (startrow=2)
+            df.to_excel(writer, index=False, sheet_name='Results', startrow=2)
 
             workbook = writer.book
             worksheet = writer.sheets['Results']
-
-
-
-            logo_path = os.path.join(app.static_folder, 'FrontEnd/asserts/vector/appIcon.png')  
-            if os.path.exists(logo_path):
-                worksheet.insert_image('A1', logo_path, {'x_scale': 0.5, 'y_scale': 0.5})
-
-            # Title after logo
+            
+            # Title format
             title_format = workbook.add_format({
                 'bold': True, 'font_color': 'white',
                 'bg_color': '#4CAF50', 'align': 'center', 'valign': 'vcenter', 'font_size': 14
@@ -407,33 +427,32 @@ def export_excel():
             header_format = workbook.add_format({
                 'bold': True, 'bg_color': '#D9EAD3', 'border': 1
             })
-            cell_format = workbook.add_format({'border': 1})
 
-            worksheet.merge_range('A5:{}5'.format(chr(65 + len(df.columns) - 1)), 'AutoScreen AI - Resume Screening Report', title_format)
+            # Add title at A1 (top of the sheet)
+            worksheet.merge_range('A1:F1', 'AutoScreen AI - Resume Screening Report', title_format)
 
-            # Headers
+            # Write headers at row 2 (just above the data)
             for col_num, value in enumerate(df.columns.values):
-                worksheet.write(5, col_num, value, header_format)
-
-            # Data
-            for row_num in range(len(df)):
-                for col_num in range(len(df.columns)):
-                    worksheet.write(row_num + 6, col_num, df.iloc[row_num, col_num], cell_format)
+                worksheet.write(2, col_num, value, header_format)
 
         output.seek(0)
+        
         response = make_response(output.read())
         response.headers['Content-Disposition'] = 'attachment; filename=AutoScreenAI_Results.xlsx'
         response.headers['Content-Type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         return response
+        
     except Exception as e:
+        logger.error(f"Error in export_excel: {str(e)}")
         return jsonify({'error': str(e)}), 500
-   
+
 @app.route('/export/pdf', methods=['POST'])
 def export_pdf():
     try:
         data = request.get_json()
+        model_used = session.get('model_used', 'Casual+Skill')
 
-        pdf = FPDF()
+        pdf = CustomPDF(model_used=model_used)
         pdf.add_page()
 
         # Add Logo
@@ -441,37 +460,46 @@ def export_pdf():
         if os.path.exists(logo_path):
             pdf.image(logo_path, x=10, y=8, w=30)
 
+        # Title
         pdf.set_font("Arial", "B", 16)
         pdf.cell(0, 10, "AutoScreen AI - Resume Screening Report", 0, 1, "C")
-        pdf.ln(20)
+        
+        pdf.set_font("Arial", "I", 12)
+        pdf.cell(0, 10, f"Model Used: {model_used}", 0, 1, "C")
+        pdf.ln(10)
 
         pdf.set_font("Arial", "B", 12)
 
-        # Custom columns we want to show
-        columns = ['file_name', 'email', 'certification_count', 'score', 'match']
+        columns = ['file_name', 'email', 'prediction', 'score']
+        column_widths = {
+            'file_name': 70,
+            'email': 70,
+            'prediction': 30,
+            'score': 20,
+        }
 
-        # Header Row
+        # Header
         for col in columns:
-            pdf.cell(38, 10, col.replace('_', ' ').title(), border=1, align='C')  # Nice title format
+            pdf.cell(column_widths[col], 10, col.replace('_', ' ').title(), border=1, align='C')
         pdf.ln()
 
         pdf.set_font("Arial", "", 11)
 
-        # Fill data
+        # Rows
         for item in data:
             file_name = item.get('file_name', 'N/A')
             email = item.get('email', 'N/A')
-            certification_count = item.get('certification_count', 0)
-            score = f"{(item.get('education_score', 0) * 100):.1f}%"  # Use education_score as "Score" (convert to %)
-            match = 'Match' if item.get('experience_score', 0) > 0 else 'Not a Match'
+            prediction = 'Match' if item.get('prediction', False) else 'No Match'
+            score = f"{(item.get('score', 0) * 100):.1f}%"
 
-            row = [file_name, email, certification_count, score, match]
+            row = [file_name, email, prediction, score]
 
-            for cell in row:
+            for i, cell in enumerate(row):
+                col_key = columns[i]
                 text = str(cell)
-                if len(text) > 20:  # truncate very long text
-                    text = text[:17] + '...'
-                pdf.cell(38, 10, text, border=1, align='C')
+                if len(text) > 30 and col_key in ['file_name', 'email']:
+                    text = text[:27] + '...'
+                pdf.cell(column_widths[col_key], 10, text, border=1, align='C')
             pdf.ln()
 
         # Save PDF to memory
@@ -484,7 +512,7 @@ def export_pdf():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-   
+
     
 @app.route('/download/<filename>', methods=['GET'])
 def download_file(filename):

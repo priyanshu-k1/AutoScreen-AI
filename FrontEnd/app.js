@@ -763,28 +763,55 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function exportToExcel(data) {
         try {
+            showValidationPopup("Preparing Excel export...");
+            
+            // Clone and prepare the data
+            const exportData = data.map(item => ({
+                file_name: item.file_name || 'Unknown',
+                email: item.email || 'N/A',
+                phone: item.phone || 'N/A',
+                score: item.score || 0,
+                prediction: item.prediction,
+                matched_skills: item.matched_skills || []
+            }));
+            
+            console.log("Sending data for Excel export:", exportData.length, "records");
+            
             const response = await fetch('/export/excel', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(exportData)
             });
-    
+        
             if (!response.ok) {
-                throw new Error('Failed to export Excel');
+                const errorText = await response.text();
+                throw new Error(`Failed to export Excel: ${response.status} ${errorText}`);
             }
-    
+        
             const blob = await response.blob();
+            if (blob.size === 0) {
+                throw new Error('Received empty file from server');
+            }
+            
+            console.log("Downloaded blob:", blob.type, blob.size, "bytes");
+            
+            // Create and trigger download
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'exported_data.xlsx';
+            a.download = 'Resume-Report.xlsx';
             document.body.appendChild(a);
             a.click();
+            window.URL.revokeObjectURL(url);
             a.remove();
+            
+            showValidationPopup("Excel export completed successfully!");
         } catch (error) {
             console.error('Excel export failed:', error);
+            showValidationPopup(`Excel export failed: ${error.message}`);
         }
     }
     
@@ -806,7 +833,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'exported_data.pdf';
+            a.download = 'Resume-Report.pdf';
             document.body.appendChild(a);
             a.click();
             a.remove();
