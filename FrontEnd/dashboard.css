@@ -1,0 +1,189 @@
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #4e54c8, #8f94fb);
+    --card-bg: #ffffff;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --accent-color: #6366f1;
+    --border-color: #e2e8f0;
+}
+
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    /* background: var(--primary-gradient); */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+}
+
+.quote{
+    font-size: 1rem;
+    color: var(--text-primary);
+    text-align: center;
+}
+.dashboard-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 900px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.section {
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.checkbox-item {
+    background-color: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.checkbox-item:hover {
+    border-color: var(--accent-color);
+    background-color: #f0f4ff;
+}
+
+.checkbox-item.active {
+    background-color: #eff6ff;
+    border-color: var(--accent-color);
+}
+
+.checkbox-item input {
+    margin-right: 8px;
+}
+
+.custom-input {
+    display: flex;
+    align-items: center;
+}
+
+.custom-input input {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.75rem;
+    margin-right: 10px;
+    width: 100%;
+    max-width: 250px;
+}
+
+.add-btn {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.add-btn:hover {
+    background-color: #4f46e5;
+}
+
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.skill-tag {
+    background-color: #f0f4ff;
+    border: 1px solid #c7d2fe;
+    color: var(--accent-color);
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.skill-tag span {
+    margin-right: 8px;
+}
+
+.remove-skill {
+    background: none;
+    border: none;
+    color: #6b7280;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.remove-skill:hover {
+    color: #ef4444;
+}
+
+.upload-btn {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.1rem;
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    transition: all 0.2s ease;
+}
+
+.upload-btn:hover {
+    background-color: #4f46e5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+
+
+@media (max-width: 768px) {
+    .dashboard-card {
+        padding: 1.5rem;
+    }
+    
+    .checkbox-group {
+        gap: 0.75rem;
+    }
+    
+    .checkbox-item {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+}

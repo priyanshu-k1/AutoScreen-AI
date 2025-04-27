@@ -1,0 +1,20 @@
+{
+    "jobRoles": [
+        {
+            "value": "project-manager",
+            "label": "Project Manager"
+        },
+        {
+            "value": "mobile-app-developement",
+            "label": "mobile app developement"
+        }
+    ],
+    "skills": [
+        "node",
+        "java",
+        "python"
+    ],
+    "isFresher": true,
+    "yearsExperience": 0,
+    "timestamp": "2025-04-27T07:12:16.898Z"
+}

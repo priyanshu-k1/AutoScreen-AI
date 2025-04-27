@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="{{ url_for('static', filename='asserts/vector/appIcon.png') }}" type="image/png" sizes="16x16">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='asserts/vector/appIcon.png') }}" type="image/png" sizes="180x180">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>AutoScreen AI - Match Results</title>
+</head>
+<body>
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-spinner">
+                <div class="spinner-circle"></div>
+                <div class="spinner-circle"></div>
+                <div class="spinner-circle"></div>
+                <div class="spinner-circle"></div>
+            </div>
+            <h2 class="loading-text">Analyzing Resume Data</h2>
+            <p class="loading-subtext">Please wait while we process your request...</p>
+            <div class="progress-container">
+                <div class="progress-bar" id="analysisProgress"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="report-content" id="reportContent" style="display: none;">
+        <header class="site-header">
+            <h1 class="site-title">AutoScreen <span style="color: #FFE19c;">AI</span></h1>
+            <span class="site-tagline">Final Report</span>
+        </header>
+        
+        <div class="mainContainer">
+            <!-- Content will be dynamically inserted here later -->
+            <div class="results-containermain" id="resultsContainer">
+                <!-- Results will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+    <div class="floating-dock">
+        <div class="dock-section">
+            <h4 class="dock-title">Filter Results</h4>
+            <div class="filter-options">
+                <label class="radio-option">
+                    <input type="radio" name="filter" value="all" checked>
+                    <span>Show All</span>
+                </label>
+                <label class="radio-option">
+                    <input type="radio" name="filter" value="top10">
+                    <span>Show Top 10</span>
+                </label>
+                <label class="radio-option">
+                    <input type="radio" name="filter" value="positive">
+                    <span>Positive Only</span>
+                </label>
+                <label class="radio-option">
+                    <input type="radio" name="filter" value="negative">
+                    <span>Negative Only</span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="dock-divider"></div>
+        
+        <div class="dock-section">
+            <h4 class="dock-title">Export</h4>
+            <div class="export-options">
+                <button class="export-btn" id="exportExcel">
+                    <i class="export-icon">📊</i> Excel
+                </button>
+                <button class="export-btn" id="exportPDF">
+                    <i class="export-icon">📄</i> PDF
+                </button>
+            </div>
+        </div>
+    </div>
+<script src="app.js"></script>
+</body>
+</html>

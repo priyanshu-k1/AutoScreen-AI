@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="{{ url_for('static', filename='asserts/vector/appIcon.png') }}" type="image/png" sizes="16x16">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='asserts/vector/appIcon.png') }}" type="image/png" sizes="180x180"> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <!-- image by ::https://www.freepik.com/icon/pen_14153734#fromView=search&page=1&position=83&uuid=94101718-5a31-4ba2-8a0d-feb9e159fd85 -->
+    <title>AutoScreen AI - File upload</title>
+</head>
+<body>
+    <header class="site-header">
+        <h1 class="site-title">AutoScreen <span style="color: #FFE19c;">AI</span></h1>
+        <span class="site-tagline auto-text"></span>
+    </header>
+    <div class="mainContainer">
+        <div class="upload-container">
+            <h2>Upload Files</h2>
+    
+            <div class="drop-area" id="dropArea">
+                <div class="icon">📁</div>
+                <p>Drag and drop files here or <span class="browse-button">browse</span></p>
+                <input type="file" id="fileInput" multiple>
+            </div>
+            
+            <div class="file-list-container">
+                <div class="file-list-header">
+                    <span>Files</span>
+                    <span id="totalSize">Total: 0 KB</span>
+                </div>
+                
+                <div id="fileList">
+                    <div class="empty-message">No files selected</div>
+                </div>
+            </div>
+            
+            <div class="progress-container-upload" id="progressContainer-upload">
+                <div class="progress-bar-upload">
+                    <div class="progress-upload" id="progressBar-upload"></div>
+                </div>
+                <div class="upload-status">
+                    <span id="uploadingFile">Uploading...</span>
+                    <span id="percentComplete">0%</span>
+                </div>
+            </div>
+            
+            <div class="upload-controls">
+                <button class="upload-btn" id="uploadBtn" disabled>Upload Files</button>
+            </div>
+        </div>
+        <div class="footer-note">
+            Developed with <span class="heart">❤️</span> by 
+            <a href="https://github.com/priyanshu-k1" target="_blank">Priyanshu Kumar</a>  
+        </div>
+   
+
+    </div>
+<script src="app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script>
+    var typed = new Typed(".auto-text",{
+           strings: ['Smart Screening. Seamless Hiring',
+           'Screen Smarter. Filter Faster. Hire Better.',
+           'AI-Powered Shortcut to Top Talent.',
+           'Instantly Filter, Intelligently Hire.',
+           'Intelligent Screening for Optimal Talent Matches.',],
+           typeSpeed: 60,
+           backSpeed: 30,
+           loop:true})
+    </script>
+</body>
+</html>
+
+          

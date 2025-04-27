@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resume Analysis Result | AutoScreen AI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="icon" href="{{ url_for('static', filename='asserts/vector/appIcon.png') }}" type="image/png" sizes="16x16">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='asserts/vector/appIcon.png') }}" type="image/png" sizes="180x180"> 
+</head>
+<body>
+  <header class="site-header">
+    <h1 class="site-title">AutoScreen <span style="color: #FFE19c;">AI</span></h1>
+    <span class="site-tagline">Uploaded Resume Overview</span>
+  </header>
+
+  <div class="mainContainer">
+    <div class="results-container">
+      <div class="results-header">
+        <h2>Resume Analysis Results</h2>
+      </div>
+
+      <div class="results-content">
+        {% for result in results %}
+        <div class="result-card">
+          <div class="result-header">
+            <span class="file-icon">
+              {% if result.filename and result.filename.endswith('.pdf') %}
+                <i class="pdf-icon">PDF</i>
+              {% else %}
+                <i class="doc-icon">DOC</i>
+              {% endif %}
+            </span>
+            <h3>{{ result.filename or 'Unknown file' }}</h3>
+            <span class="experience-badge">
+              {% if result.data and result.data.experience_years %}
+                {{ result.data.experience_years }} Yrs Exp
+              {% else %}
+                Fresher
+              {% endif %}
+            </span>
+          </div>
+          
+          <div class="result-details">
+            <div class="detail-section">
+              <h4>Contact Information</h4>
+              <div class="detail-grid">
+                <div class="detail-item">
+                  <span class="detail-label">Email</span>
+                  <span class="detail-value">
+                    {% if result.data and result.data.email %}
+                      {{ result.data.email }}
+                    {% else %}
+                      Not found
+                    {% endif %}
+                  </span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Phone</span>
+                  <span class="detail-value">
+                    {% if result.data and result.data.phone %}
+                      {{ result.data.phone }}
+                    {% else %}
+                      Not found
+                    {% endif %}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-section">
+              <h4>Skills Detected</h4>
+              <div class="skills-container">
+                {% if result.data and result.data.skills %}
+                  {% for skill in result.data.skills %}
+                    <span class="skill-tag">{{ skill }}</span>
+                  {% endfor %}
+                {% else %}
+                  <span class="no-data">No skills detected</span>
+                {% endif %}
+              </div>
+            </div>
+            
+            <!-- Certifications Section -->
+            <div class="detail-section">
+              <h4>Certifications {% if result.data.has_certifications %}<span class="badge">{{ result.data.certifications|length }}</span>{% endif %}</h4>
+              
+              {% if result.data.has_certifications %}
+                  <div class="certifications-container">
+                      {% for cert in result.data.certifications %}
+                      <div class="certification-card">
+                          <div class="certification-header">
+                              <h5>{{ cert.name }}</h5>
+                              {% if cert.cert_number %}
+                              <span class="cert-id">ID: {{ cert.cert_number }}</span>
+                              {% endif %}
+                          </div>
+                          {% if cert.provider %}
+                          <div class="certification-provider">
+                              <span class="provider-label">Issued by:</span>
+                              <span class="provider-name">{{ cert.provider }}</span>
+                          </div>
+                          {% endif %}
+                      </div>
+                      {% endfor %}
+                  </div>
+              {% else %}
+                  <div class="no-certifications">
+                      <p>No certifications found in this resume</p>
+                  </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="footer-note">
+      Developed with <span class="heart">❤️</span> by 
+      <a href="https://github.com/priyanshu-k1" target="_blank">Priyanshu Kumar</a>  
+    </div>
+  </div>
+  <div class="floating-dock">
+    <div class="dropdown-container">
+        <label for="model-select">Model</label>
+        <select id="model-select" class="dropdown-select">
+            <option value="skills">Skills Only</option>
+            <option value="full">Full Profile</option>
+        </select>
+    </div>
+    
+    <div class="dropdown-container">
+        <label for="intensity-select">Intensity</label>
+        <select id="intensity-select" class="dropdown-select">
+            <option value="casual">Casual</option>
+            <option value="strict">Strict</option>
+        </select>
+    </div>
+    
+    <button class="dock-button" id="analyze-button">Analyze</button>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
