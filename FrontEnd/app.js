@@ -579,39 +579,38 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function initializeFloatingDock() {
-        // Filter functionality
+        const originalResults = [...analysisResults];
+    
         filterRadios.forEach(radio => {
             radio.addEventListener('change', function() {
-                if (!currentResults.length) return;
+                if (!originalResults.length) return;
                 
                 const filterValue = this.value;
                 let filteredResults = [];
                 
                 switch(filterValue) {
                     case 'all':
-                        filteredResults = [...analysisResults];
+                        filteredResults = [...originalResults]; // Use original results
                         break;
                     case 'top10':
-                        // Sort by score and take top 10
-                        filteredResults = [...analysisResults]
+                        filteredResults = [...originalResults]
                             .sort((a, b) => (b.score || 0) - (a.score || 0))
                             .slice(0, 10);
                         break;
                     case 'positive':
-                        filteredResults = analysisResults.filter(result => result.prediction === true);
+                        filteredResults = originalResults.filter(result => result.prediction === true);
                         break;
                     case 'negative':
-                        filteredResults = analysisResults.filter(result => result.prediction === false);
+                        filteredResults = originalResults.filter(result => result.prediction === false);
                         break;
                     default:
-                        filteredResults = [...analysisResults];
+                        filteredResults = [...originalResults];
                 }
                 
                 currentResults = filteredResults;
                 displayResults(currentResults);
             });
         });
-        
         // Export functionality
         exportExcelBtn.addEventListener('click', function() {
             if (currentResults.length === 0) {
