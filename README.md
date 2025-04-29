@@ -77,6 +77,7 @@ cd AutoScreen-AI
 cd BackEnd
 pip install -r requirements.txt
 python app.py
-
+```
+---
 ##
 *Developed with ❤️ by Priyanshu Kumar*
