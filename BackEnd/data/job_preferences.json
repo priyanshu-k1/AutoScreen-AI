@@ -1,21 +1,17 @@
 {
     "jobRoles": [
         {
-            "value": "project-manager",
-            "label": "Project Manager"
-        },
-        {
-            "value": "mobile-app-developement",
-            "label": "mobile app developement"
+            "value": "android-app-development",
+            "label": "android app development"
         }
     ],
     "skills": [
-        "node",
         "java",
-        "js",
+        "node",
+        "flutter",
         "python"
     ],
     "isFresher": true,
     "yearsExperience": 0,
-    "timestamp": "2025-04-28T04:44:37.256Z"
+    "timestamp": "2025-04-29T07:17:57.022Z"
 }
