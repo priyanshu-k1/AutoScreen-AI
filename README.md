@@ -11,7 +11,7 @@
 ✅ Drag-and-drop resume uploader  
 ✅ Supports `.pdf`, `.doc`, `.docx` formats  
 ✅ Auto-extracts skills, contact info, and certifications  
-✅ 4-level ML model screening modes (casual, strict, full)  
+✅ 4-level ML model screening modes (casual, strict)  
 ✅ Role- and skill-based matching  
 ✅ Confidence scoring + final prediction  
 ✅ Filter and export results (PDF & Excel)  
