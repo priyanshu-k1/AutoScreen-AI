@@ -33,13 +33,12 @@ def predict_match(resume_skills, job_skills, education, experience_years, certif
     for term, score in degree_mapping.items():
         if term in education:
             education_score = max(education_score, score)
-    education_score = education_score / 5.0  # Normalize
-    
+    education_score = education_score / 5.0  
     # Calculate certification count
-    cert_count = len(certifications) / 10.0  # Normalize
+    cert_count = len(certifications) / 10.0  
     
     # Calculate experience score
-    experience_score = min(experience_years, 20) / 20  # Normalize and cap at 20 years
+    experience_score = min(experience_years, 20) / 20 
     
     # Calculate keyword match
     resume_skills_set = set(resume_skills_text.split())

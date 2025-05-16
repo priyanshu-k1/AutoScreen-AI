@@ -189,9 +189,7 @@ features['match_score'] = (
     features['keyword_match'] * 0.30
 )
 
-# MODIFIED: Increased threshold by 2-3% (0.025-0.03) to make selection stricter
-# Original threshold was 0.25, now increased to 0.28 (3% increase)
-MATCH_THRESHOLD = 0.28  # Adjusted from 0.25 to 0.28 (3% stricter)
+MATCH_THRESHOLD = 0.28  
 print(f"\nUsing match threshold: {MATCH_THRESHOLD}")
 
 # Try different thresholds to see class distribution

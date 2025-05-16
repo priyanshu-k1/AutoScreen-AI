@@ -432,8 +432,6 @@ h2 {
     color: #4a5568;
     margin: 0;
 }
-
-/* Removed summary-card styles */
 .summary-card {
     display: none;
 }
@@ -506,8 +504,6 @@ h2 {
     font-size: 12px;
     margin-left: 5px;
 }
-
-/* Experience badge in result header */
 .experience-badge {
     background: #16a34a;
     color: white;
@@ -708,37 +704,20 @@ h2 {
     height: 50px;
     background: rgba(0, 0, 0, 0.1);
 }
-
-/* .filter-options {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-.radio-option {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    padding: 8px 12px;
-    border-radius: 20px;
-    background: #f3f4f6;
-    transition: all 0.2s ease;
-} */
 .filter-options {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
     justify-content: center;
-    max-width: 400px; /* Add a max-width to control wrapping */
+    max-width: 400px; 
 }
 
 .radio-option {
-    flex: 1 1 40%; /* Make each button take up about 40% */
-    min-width: 150px; /* optional: to prevent buttons from being too small */
+    flex: 1 1 40%;
+    min-width: 150px; 
     display: flex;
     align-items: center;
-    justify-content: center; /* center the text */
+    justify-content: center;
     gap: 10px;
     cursor: pointer;
     padding: 8px 12px;
@@ -800,53 +779,11 @@ h2 {
 .export-icon {
     font-size: 1rem;
 }
-/* Responsive positioning for smaller screens */
-@media (max-width: 768px) {
-    .floating-dock {
-        top: 10px;
-        right: 10px;
-        left: 10px;
-        justify-content: center;
-        padding: 12px 15px;
-    }
-    .dock-divider {
-        display: none;
-    }
-    
-    .filter-options {
-        gap: 8px;
-    }
-    
-    .radio-option {
-        padding: 6px 10px;
-    }
-    
-    .export-btn {
-        padding: 6px 12px;
-    }
-}
-@media (max-width: 480px) {
-    .floating-dock {
-        flex-direction: column;
-        align-items: stretch;
-        width: 90%;
-    }
-    
-    .filter-options {
-        justify-content: space-around;
-    }
-    
-    .export-options {
-        justify-content: center;
-    }
-}
 
 .floating-dock:hover {
     transform: translateX(-50%) translateY(-5px);
     box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
 }
-
-/* Dropdown container styling */
 .dropdown-container {
     display: flex;
     flex-direction: column;
@@ -888,8 +825,6 @@ h2 {
     border-color: #6366f1;
     box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
 }
-
-/* Button styling */
 .dock-button {
     background: linear-gradient(to right, #6366f1, #4f46e5);
     color: white;
@@ -916,8 +851,6 @@ h2 {
     transform: translateY(0);
     box-shadow: 0 2px 5px rgba(79, 70, 229, 0.3);
 }
-
-/* Removed content-preview styles */
 .content-preview {
     display: none;
 }
@@ -1031,17 +964,11 @@ h2 {
     border-radius: 4px;
     transition: width 0.3s ease;
 }
-
-/* Report Content Styles */
 .report-content {
     width: 100%;
     min-height: 100vh;
     padding: 20px;
 }
-
-/* Rard version 2 */
-
-
 body {
     font-family: 'Poppins', sans-serif;
     background: var(--bg-gradient);
@@ -1318,7 +1245,6 @@ body {
     border-radius: 4px;
     transition: width 0.3s ease;
 }
-/* Add these to your existing styles.css */
 .metrics-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -1344,6 +1270,45 @@ body {
     font-size: 1.1rem;
     font-weight: 600;
     color: var(--primary-dark);
+}
+@media (max-width: 768px) {
+    .floating-dock {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        justify-content: center;
+        padding: 12px 15px;
+    }
+    .dock-divider {
+        display: none;
+    }
+    
+    .filter-options {
+        gap: 8px;
+    }
+    
+    .radio-option {
+        padding: 6px 10px;
+    }
+    
+    .export-btn {
+        padding: 6px 12px;
+    }
+}
+@media (max-width: 480px) {
+    .floating-dock {
+        flex-direction: column;
+        align-items: stretch;
+        width: 90%;
+    }
+    
+    .filter-options {
+        justify-content: space-around;
+    }
+    
+    .export-options {
+        justify-content: center;
+    }
 }
 
 @media (max-width: 768px) {
@@ -1384,9 +1349,6 @@ body {
     }
 }
 
-
-
-/* Add this to your existing animations */
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }

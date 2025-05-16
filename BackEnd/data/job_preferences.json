@@ -1,17 +1,21 @@
 {
     "jobRoles": [
         {
-            "value": "android-app-development",
-            "label": "android app development"
+            "value": "software-engineer",
+            "label": "Software Engineer"
+        },
+        {
+            "value": "data-scientist",
+            "label": "Data Scientist"
         }
     ],
     "skills": [
-        "java",
         "node",
-        "flutter",
-        "python"
+        "python",
+        "java",
+        "kotlin"
     ],
     "isFresher": true,
     "yearsExperience": 0,
-    "timestamp": "2025-04-29T07:17:57.022Z"
+    "timestamp": "2025-05-15T12:48:18.813Z"
 }

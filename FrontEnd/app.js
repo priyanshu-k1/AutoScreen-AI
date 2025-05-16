@@ -7,12 +7,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const browseButton = document.querySelector('.browse-button');
     const totalSizeElement = document.getElementById('totalSize');
     const uploadBtn = document.getElementById('uploadBtn');
-    const progressContainer = document.getElementById('progressContainer-upload'); // Updated ID
-    const progressBar = document.getElementById('progressBar-upload'); // Updated ID
+    const progressContainer = document.getElementById('progressContainer-upload');
+    const progressBar = document.getElementById('progressBar-upload');
     const percentComplete = document.getElementById('percentComplete');
     const uploadingFile = document.getElementById('uploadingFile');
-
-    // Set accepted file types
     fileInput.setAttribute('accept', '.pdf,.doc,.docx');
 
     let files = [];
@@ -68,7 +66,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // File handling
     function handleFiles(newFiles) {
         if (newFiles.length === 0) return;
 
@@ -486,7 +483,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener('DOMContentLoaded', function() {
     // Find the button first
-    const analyzeButton = document.getElementById('analyze-button'); // Use your actual button ID
+    const analyzeButton = document.getElementById('analyze-button'); 
     
     // Check if button exists
     if (!analyzeButton) {
@@ -531,7 +528,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Report page functionality
 document.addEventListener('DOMContentLoaded', function() {
-    // Only run this code if we're on the report page
     if (!document.querySelector('.report-content')) return;
 
     const loadingScreen = document.getElementById('loadingScreen');
@@ -552,8 +548,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const exportExcelBtn = document.getElementById('exportExcel');
     const exportPDFBtn = document.getElementById('exportPDF');
     let currentResults = [...analysisResults]; // Store the current results
-
-    // Simulate or perform actual data loading
     simulateDataLoading();
 
     function simulateDataLoading() {

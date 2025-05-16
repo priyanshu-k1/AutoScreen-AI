@@ -13,7 +13,6 @@
 }
 
 body {
-    /* background: var(--primary-gradient); */
     min-height: 100vh;
     display: flex;
     flex-direction: column;

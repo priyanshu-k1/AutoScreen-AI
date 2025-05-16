@@ -110,6 +110,6 @@ plt.xlabel('Predicted')
 plt.ylabel('Actual')
 plt.title('Confusion Matrix')
 plt.show()
-joblib.dump(model, "resume_match_model.pkl")
-with open('casualSkillsOnlyModel.pkl', 'wb') as f:
-    pickle.dump(model, f)
+# joblib.dump(model, "resume_match_model.pkl")
+# with open('casualSkillsOnlyModel.pkl', 'wb') as f:
+#     pickle.dump(model, f)
