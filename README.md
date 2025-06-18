@@ -24,7 +24,7 @@
 |-------------|------------------------------------|
 | **Frontend**  | HTML, CSS, JavaScript             |
 | **Backend**   | Python, Flask                     |
-| **ML/NLP**    | scikit-learn, spaCy, PyPDF2, pandas |
+| **ML/NLP**    | scikit-learn, spaCy, pandas       |
 | **Parsing**   | python-docx, regex                |
 | **Export**    | FPDF, pandas Excel Writer         |
 
